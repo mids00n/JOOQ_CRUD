@@ -1,5 +1,6 @@
 package com.example.dada.controller;
 
+import com.example.dada.DTOtransformer.StudentDtoTransformer;
 import com.example.dada.dto.StudentDto;
 import com.example.dada.service.StudentService;
 
@@ -34,10 +35,8 @@ public class StudentController {
     }
 	    
 	    @PutMapping("/{id}")
-	    public ResponseEntity<Void> updateStudent(@PathVariable Integer id, @RequestBody StudentDto studentDto) {
-	        studentDto.setId(id);
-	        studentService.updateStudent(studentDto);
-	        return ResponseEntity.noContent().build();
+	    public StudentDto update(@PathVariable Integer id, @RequestBody StudentDto student) {
+	        return studentService.updateStudent(StudentDtoTransformer.toStudentDto(id, student));
 	    }
 	    @DeleteMapping("{id}")
 	    public ResponseEntity<String> delete(@PathVariable Integer id) {

@@ -5,7 +5,6 @@ import java.util.List;
 import org.jooq.DSLContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-//import static com.example.dada.db.com.example.generated.tables.Student.STUDENT;
 import static com.example.generated.tables.Student.STUDENT;
 import com.example.dada.dto.StudentDto;
 
@@ -16,7 +15,7 @@ public class StudentRepository {
     private final DSLContext dslContext;
   
     public List<StudentDto> getAll() {
-        return dslContext.select().from(STUDENT).fetchInto(StudentDto.class);
+        return dslContext.select().from(STUDENT.as ("db_student_table")).fetchInto(StudentDto.class);
     }
 
     public StudentDto create(StudentDto studentDto) {
