@@ -13,35 +13,35 @@ import lombok.RequiredArgsConstructor;
 @Repository
 public class StudentRepository {
     private final DSLContext dslContext;
-  
+    var st = STUDENT.as("st");
     public List<StudentDto> getAll() {
-        return dslContext.select().from(STUDENT.as ("db_student_table")).fetchInto(StudentDto.class);
+        return dslContext.select().from(st).fetchInto(StudentDto.class);
     }
 
     public StudentDto create(StudentDto studentDto) {
     	return dslContext
-        .insertInto(STUDENT)
-        .set(STUDENT.FIRST_NAME, studentDto.getFirstName())
-        .set(STUDENT.MIDDLE_NAME, studentDto.getMiddleName())
-        .set(STUDENT.LAST_NAME, studentDto.getLastName())
+        .insertInto(st)
+        .set(st.FIRST_NAME, studentDto.getFirstName())
+        .set(st.MIDDLE_NAME, studentDto.getMiddleName())
+        .set(st.LAST_NAME, studentDto.getLastName())
         .returning()
         .fetchOneInto(StudentDto.class); 
     }
 
     public StudentDto update(StudentDto studentDto) {
     	return dslContext
-                .update(STUDENT)
-                .set(STUDENT.FIRST_NAME, studentDto.getFirstName())
-                .set(STUDENT.MIDDLE_NAME, studentDto.getMiddleName())
-                .set(STUDENT.LAST_NAME, studentDto.getLastName())
-                .where(STUDENT.ID.eq(studentDto.getId()))
+                .update(st)
+                .set(st.FIRST_NAME, studentDto.getFirstName())
+                .set(st.MIDDLE_NAME, studentDto.getMiddleName())
+                .set(st.LAST_NAME, studentDto.getLastName())
+                .where(st.ID.eq(studentDto.getId()))
                 .returning()
                 .fetchOneInto(StudentDto.class); 
     }
     public void delete(Integer id) {
         dslContext
-            .deleteFrom(STUDENT)
-            .where(STUDENT.ID.eq(id))
+            .deleteFrom(st)
+            .where(st.ID.eq(id))
             .execute();
     }
 }

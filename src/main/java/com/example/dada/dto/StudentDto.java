@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 
 public class StudentDto {
 	private String firstName;
@@ -11,10 +12,4 @@ public class StudentDto {
 	private String lastName;
 	private Integer id;
 	
-	   public StudentDto(String firstName, String middleName, String lastName,Integer id  ) {
-	        this.firstName = firstName;
-	        this.middleName = middleName;
-	        this.lastName = lastName;
-	        this.id = id;
-	    }
 }

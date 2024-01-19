@@ -3,6 +3,7 @@ package com.example.dada.controller;
 import com.example.dada.DTOtransformer.StudentDtoTransformer;
 import com.example.dada.dto.StudentDto;
 import com.example.dada.service.StudentService;
+import static com.example.dada.DTOtransformer.StudentDtoTransformer.toStudentDto;
 
 import lombok.RequiredArgsConstructor;
 
@@ -36,7 +37,7 @@ public class StudentController {
 	    
 	    @PutMapping("/{id}")
 	    public StudentDto update(@PathVariable Integer id, @RequestBody StudentDto student) {
-	        return studentService.updateStudent(StudentDtoTransformer.toStudentDto(id, student));
+	        return studentService.updateStudent(toStudentDto(id, student));
 	    }
 	    @DeleteMapping("{id}")
 	    public ResponseEntity<String> delete(@PathVariable Integer id) {

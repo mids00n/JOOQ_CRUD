@@ -12,7 +12,7 @@ import lombok.Setter;
 @ConfigurationProperties(prefix = "postgresql")
 public class DatabasePropeties {
 
-    public String url;
-    public String username;
-    public String password;
+    private String url;
+    private String username;
+    private String password;
 }
