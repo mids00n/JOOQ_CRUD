@@ -1,0 +1,23 @@
+version: '3'
+services:
+  postgres:
+    container_name: my_container_db
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: students
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1111
+
+  spring-gradle:
+    container_name: spring-container
+    image: moby/buildkit:buildx-stable-1
+    ports:
+      - "27019:27019"
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/students
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 1111

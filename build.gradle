@@ -1,7 +1,9 @@
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.1'
 	id 'io.spring.dependency-management' version '1.1.4'
+	id 'nu.studer.jooq' version '5.0'
 }
 
 group = 'com.example'
@@ -26,12 +28,53 @@ dependencies {
     implementation 'org.jooq:jooq-meta'
     implementation('org.jooq:jooq-codegen-maven:3.18.7')
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-jooq'
 	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'org.postgresql:postgresql'
+	   implementation 'org.postgresql:postgresql'
+    jooqGenerator 'org.postgresql:postgresql:42.5.1'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
+jooq {
+    version = '3.18.7'  
+    edition = nu.studer.gradle.jooq.JooqEdition.OSS 
+
+    configurations {
+        main {  
+            generateSchemaSourceOnCompilation = true  
+
+            generationTool {
+                
+                jdbc {
+                    driver = 'org.postgresql.Driver'
+                    url = 'jdbc:postgresql://localhost:5432/students'
+                    user = 'postgres'
+                    password = '1111'
+                }
+                generator {
+                    name = 'org.jooq.codegen.DefaultGenerator'
+                    database {
+                        name = 'org.jooq.meta.postgres.PostgresDatabase'
+                        inputSchema = 'public'
+                    }
+                    generate {
+                        deprecated = false
+                        records = true
+                        immutablePojos = true
+                        fluentSetters = true
+                    }
+                   target {
+                        packageName = 'com.example.generated' 
+                        directory = 'src/main/java/com/example/dada/db'
+                    }
+                    strategy.name = 'org.jooq.codegen.DefaultGeneratorStrategy'
+                }
+            }
+        }
+    }
 }
+
+
+
+
